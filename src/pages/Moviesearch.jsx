@@ -11,16 +11,17 @@ const Moviesearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    searchMovies("Batman");
-  }, []);
-
-  const searchMovies = async (title) => {
+ const searchMovies = async (title) => {
     const response = await fetch(`${API_URL}&s=${title}`);
     const data = await response.json();
 
     setMovies(data.Search);
   };
+
+  useEffect(() => {
+    searchMovies("Batman");
+  }, []);
+  
   return (
     <body className="bg-[212426]">
     <div className="app flex flex-col items-center justify-center p-16 md:p-8 sm:p-4">
