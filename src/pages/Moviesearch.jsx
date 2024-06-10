@@ -6,7 +6,7 @@ import MovieCard from '../components/Moviecard';
 import SearchIcon from '../../public/search.svg';
 import { Link } from 'react-router-dom';
 
-const API_URL = "http://www.omdbapi.com/?apikey=ea988e43";
+const API_URL = " http://www.omdbapi.com/?i=tt3896198&apikey=ea988e43";
 
 const Moviesearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
