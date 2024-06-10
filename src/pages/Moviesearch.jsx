@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 import { useState ,useEffect } from 'react';
 import '../components/Moviesearch.css'
 import MovieCard from '../components/Moviecard';
@@ -18,13 +19,11 @@ const Moviesearch = () => {
     setError(null);
     
     try {
-      const response = await fetch(`${API_URL}&s=${title}`);
-      const data = await response.json();
-
-      if (data.Response === "True") {
-        setMovies(data.Search);
+      const response = await axios.get(`${API_URL}&s=${title}`);
+      if (response.data.Response === "True") {
+        setMovies(response.data.Search);
       } else {
-        setError(data.Error);
+        setError(response.data.Error);
         setMovies([]);
       }
     } catch (err) {
@@ -38,7 +37,6 @@ const Moviesearch = () => {
     searchMovies("Batman");
   }, []);
 
-  
   return (
     <div className="bg-[#212426] min-h-screen flex flex-col items-center justify-center p-16 md:p-8 sm:p-4">
       <h1 className="relative text-4xl font-bold text-orange-500 my-8">MovieLand</h1>
@@ -84,7 +82,7 @@ const Moviesearch = () => {
         Previous Page
       </Link>
     </div>
-  )
-}
+  );
+};
 
 export default Moviesearch
