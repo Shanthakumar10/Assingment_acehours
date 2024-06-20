@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Translator/>}/>
-          <Route path='/Tanslator' element={<Translator/>}/>
+          <Route path='/Translator' element={<Translator/>}/>
           <Route path='/Movie' element={<Moviesearch/>}/>
         </Routes>
       </BrowserRouter>

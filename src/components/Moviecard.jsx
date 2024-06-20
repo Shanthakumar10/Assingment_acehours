@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MovieInfo from './MovieInfo';
 
-const MovieCard = ({ movie: { imdbID, Year, Poster, Title, Type } }) => {
+
+const MovieCard = (props) => {
+  const { Title, Year, imdbID, Type, Poster } = props.movie;
   return (
-    <div className="movie movie-hover-content relative bg-[#343739] rounded-lg overflow-hidden  m-6 w-80 h-96" key={imdbID}>
+    <>
+    <div className="movie movie-hover-content relative bg-[#343739] rounded-lg overflow-hidden  m-6 w-80 h-96" key={imdbID} onClick={() => {props.currentId(imdbID);  
+       window.scrollTo({ top: 0, behavior: "smooth" }) }}>
       <div  className='absolute inset-0 p-4 opacity-0 text-f9d3b4 transition-opacity duration-300'>
         <p>{Year}</p>
       </div>
@@ -17,6 +22,8 @@ const MovieCard = ({ movie: { imdbID, Year, Poster, Title, Type } }) => {
         <h3 className='mt-2 text-f9d3b4'>{Title}</h3>
       </div>
     </div>
+   
+    </>
   );
 }
 
