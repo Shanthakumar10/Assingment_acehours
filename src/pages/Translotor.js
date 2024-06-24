@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import countries from '../components/data';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import FormData from 'form-data';
 
 const Translator = () => {
   useEffect(() => {
@@ -41,39 +39,24 @@ const Translator = () => {
       }
     });
 
-    translateBtn.addEventListener("click", async () => {
+    translateBtn.addEventListener("click", () => {
       let text = fromText.value.trim();
       let translateFrom = selectTag[0].value;
       let translateTo = selectTag[1].value;
       if (!text) return;
       toText.setAttribute("placeholder", "Translating...");
-
-      // Create a new FormData instance
-      const data = new FormData();
-      data.append('q', text);
-      data.append('target', translateTo);
-      data.append('source', translateFrom);
-
-      const options = {
-        method: 'POST',
-        url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
-        headers: {
-          'x-rapidapi-key': '0469e50ebcmsh768ae042c8141eep15a8d2jsn35e8f56e4b50',
-          'x-rapidapi-host': 'google-translate1.p.rapidapi.com',
-          'Accept-Encoding': 'application/gzip',
-          ...data.getHeaders(),
-        },
-        data: data
-      };
-
-      try {
-        const response = await axios.request(options);
-        toText.value = response.data.data.translations[0].translatedText;
-        toText.setAttribute("placeholder", "Translation");
-      } catch (error) {
-        console.error(error);
-        toText.setAttribute("placeholder", "Translation failed");
-      }
+      let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          toText.value = data.responseData.translatedText;
+          data.matches.forEach((data) => {
+            if (data.id === 0) {
+              toText.value = data.translation;
+            }
+          });
+          toText.setAttribute("placeholder", "Translation");
+        });
     });
   }, []);
 
@@ -96,7 +79,7 @@ const Translator = () => {
             ></textarea>
           </div>
           <ul className="controls flex flex-col md:flex-row justify-between items-center p-4">
-            <li className="row flex items-center mb-4 md:mb-0">
+          <li className="row flex items-center mb-4 md:mb-0">
               <select className="border p-2 rounded-md"></select>
             </li>
             <li className="exchange mb-4 md:mb-0 md:mx-4">
@@ -111,7 +94,7 @@ const Translator = () => {
           Translate Text
         </button>
       </div>
-      <Link className="bg-white text-black py-4 px-8 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white" to="/Movie">
+      <Link className=" bg-white text-black py-4 px-8 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white" to="/Movie">
         Next Page
       </Link>
     </div>
