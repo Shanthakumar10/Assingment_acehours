@@ -34,14 +34,10 @@ const Moviesearch = () => {
         setLoading(false);
       } else {
         setError(response.data.Error);
-       // setMovies([]);
       }
     } catch (err) {
       setError("Something went wrong. Please try again later.");
-    } 
-    // finally {
-    //   setLoading(false);
-    // }
+    }
   };
 
   useEffect(() => {
@@ -69,59 +65,59 @@ const Moviesearch = () => {
     setDropDownSerach(true)
   }
 
-const handleCurrentId = (title) => {
-  console.log(title);
-  searchMovies(title, setMovies)
-}
+  const handleCurrentId = (title) => {
+    console.log(title);
+    searchMovies(title, setMovies)
+  }
 
   return (
-    
+
     <div className="bg-[#212426] min-h-screen flex flex-col items-center justify-center p-16 md:p-8 sm:p-4">
       <h1 className="relative text-4xl font-bold text-orange-500 my-8">MovieLand</h1>
 
       <div className="relative w-full max-w-md mb-8">
-        <div style={{display:"flex"}}>
-        <input
-          value={searchTerm}
-          onChange={(e) => handleMovieDrop(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Search for movies"
-          className="w-full p-4 rounded-lg text-gray-900"
-        />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchMovies(searchTerm ,setMovies)}
-          className="absolute right-4 top-7 transform -translate-y-1/2 text-gray-900 w-6 h-6 cursor-pointer"
-        />
-      </div>
-      {movieDropdown ? <div className='dropdowm  bg-slate-100 rounded-lg  pb-2'>
-        {dropDownInfo.map((item) => (
-          <div onClick={() => handleCurrentId(item.Title)} className='dropdown-row hover:bg-slate-300 pl-4 cursor-default p-1 '>{item.Title}</div>
-        ))}
-      </div> : null}
+        <div style={{ display: "flex" }}>
+          <input
+            value={searchTerm}
+            onChange={(e) => handleMovieDrop(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Search for movies"
+            className="w-full p-4 rounded-lg text-gray-900"
+          />
+          <img
+            src={SearchIcon}
+            alt="search"
+            onClick={() => searchMovies(searchTerm, setMovies)}
+            className="absolute right-4 top-7 transform -translate-y-1/2 text-gray-900 w-6 h-6 cursor-pointer"
+          />
+        </div>
+        {movieDropdown ? <div className='dropdowm  bg-slate-100 rounded-lg  pb-2'>
+          {dropDownInfo.map((item) => (
+            <div onClick={() => handleCurrentId(item.Title)} className='dropdown-row hover:bg-slate-300 pl-4 cursor-default p-1 '>{item.Title}</div>
+          ))}
+        </div> : null}
       </div>
       {
-     
-       movies.length > 0 ? (
-        <>
-        
-          {imdbId && <MovieInfo imdbId={imdbId} />}
 
-          <div className="container1 flex flex-wrap justify-center items-center w-full mt-12">
-            {movies.map((movie) => (
-    
-              <MovieCard key={movie.imdbID} movie={movie} currentId={currentId} />
-            
-            ))}
+        movies.length > 0 ? (
+          <>
+
+            {imdbId && <MovieInfo imdbId={imdbId} />}
+
+            <div className="container1 flex flex-wrap justify-center items-center w-full mt-12">
+              {movies.map((movie) => (
+
+                <MovieCard key={movie.imdbID} movie={movie} currentId={currentId} />
+
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="empty flex justify-center items-center w-full mt-12">
+            <h2 className="text-xl text-[#f9d3b4] font-raleway">No movies found</h2>
           </div>
-        </>
-      ) : (
-        <div className="empty flex justify-center items-center w-full mt-12">
-          <h2 className="text-xl text-[#f9d3b4] font-raleway">No movies found</h2>
-        </div>
-      )}
-      
+        )}
+
       <Link
         className="previous bg-white text-black py-3 px-3 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white"
         to="/Translator"
@@ -129,7 +125,7 @@ const handleCurrentId = (title) => {
         Previous Page
       </Link>
     </div>
-  
+
   );
 };
 
