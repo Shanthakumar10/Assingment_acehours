@@ -6,6 +6,7 @@ import MovieCard from '../components/Moviecard';
 import SearchIcon from '../../public/search.svg';
 import { Link } from 'react-router-dom';
 import MovieInfo from '../components/MovieInfo';
+import { FadeLoader } from "react-spinners";
 
 
 
@@ -18,6 +19,7 @@ const Moviesearch = () => {
   const [movieDropdown, setMovieDropdown] = useState(false);
   const [dropDownInfo, setDropDownInfo] = useState([])
   const [dropDownSerach, setDropDownSerach] = useState(false)
+  const [loader, setLoader] = useState(true);
 
   const searchMovies = async (e, currentState) => {
 
@@ -48,6 +50,7 @@ const Moviesearch = () => {
 
   const currentId = (id) => {
     setImdbId(id)
+    setLoader(false)
   }
 
   const handleKeyDown = (e) => {
@@ -72,6 +75,7 @@ const handleCurrentId = (title) => {
 }
 
   return (
+    
     <div className="bg-[#212426] min-h-screen flex flex-col items-center justify-center p-16 md:p-8 sm:p-4">
       <h1 className="relative text-4xl font-bold text-orange-500 my-8">MovieLand</h1>
 
@@ -98,27 +102,17 @@ const handleCurrentId = (title) => {
       </div> : null}
       </div>
       {
-      // loading ? (
-      //   null
-      //   // <div className="loading flex justify-center items-center w-full mt-12">
-      //   //   <h2 className="text-xl text-[#f9d3b4] font-raleway">Loading...</h2>
-      //   // </div>
-      // )
-      //  : error ? (
-      //   <div className="error flex justify-center items-center w-full mt-12">
-      //     <h2 className="text-xl text-red-500 font-raleway">{error}</h2>
-      //   </div>
-      // ) 
-      // :
+     
        movies.length > 0 ? (
         <>
+        
           {imdbId && <MovieInfo imdbId={imdbId} />}
 
           <div className="container1 flex flex-wrap justify-center items-center w-full mt-12">
             {movies.map((movie) => (
-
+    
               <MovieCard key={movie.imdbID} movie={movie} currentId={currentId} />
-
+            
             ))}
           </div>
         </>
@@ -127,14 +121,15 @@ const handleCurrentId = (title) => {
           <h2 className="text-xl text-[#f9d3b4] font-raleway">No movies found</h2>
         </div>
       )}
-
+      
       <Link
-        className="previous bg-white text-black py-4 px-8 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white"
+        className="previous bg-white text-black py-3 px-3 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white"
         to="/Translator"
       >
         Previous Page
       </Link>
     </div>
+  
   );
 };
 
