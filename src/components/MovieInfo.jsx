@@ -13,7 +13,7 @@ const MovieInfo = (props) => {
   console.log(imdbId);
 
   useEffect(() => {
-    axios.get(`http://www.omdbapi.com/?i=${imdbId}&apikey=ea988e43`)
+    axios.get(`https://www.omdbapi.com/?i=${imdbId}&apikey=ea988e43`)
       .then((response) => {
         setMovieInfo(response.data);
         setTimeout(() => {
