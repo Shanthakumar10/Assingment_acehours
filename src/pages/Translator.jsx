@@ -18,7 +18,7 @@ const Translator = () => {
     data.append("target", targetLang);
     data.append("source", sourceLang);
 
-    setTranslate(true)
+    setTranslate(true);
     const options = {
       method: "POST",
       url: "https://google-translate1.p.rapidapi.com/language/translate/v2",
@@ -64,6 +64,14 @@ const Translator = () => {
     getLang();
   }, []);
 
+  const handleSourceTextChange = (e) => {
+    const value = e.target.value;
+    setSourceText(value);
+    if (!value) {
+      setTranslatedText("");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center bg-[#212426] p-4 min-h-screen">
       {!loader ? (
@@ -75,7 +83,7 @@ const Translator = () => {
                   spellCheck="false"
                   className="from-text h-64 w-full border-none outline-none resize-none p-4 rounded-lg md:rounded-none"
                   placeholder="Enter text"
-                  onChange={(e) => setSourceText(e.target.value)}
+                  onChange={handleSourceTextChange}
                 ></textarea>
                 <textarea
                   spellCheck="false"
@@ -83,7 +91,7 @@ const Translator = () => {
                   disabled
                   className="to-text h-64 w-full border-none outline-none resize-none p-4 rounded-lg md:rounded-none"
                   placeholder={translate ? "Translating..." : "Translation"}
-                  value={sourceText? translatedText : null}
+                  value={sourceText ? translatedText : ""}
                 ></textarea>
               </div>
               <div className="flex flex-col md:flex-row justify-between mb-4">
