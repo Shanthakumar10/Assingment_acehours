@@ -10,6 +10,7 @@ const Translator = () => {
   const [sourceLang, setSourceLang] = useState("en");
   const [targetLang, setTargetLang] = useState("hi");
   const [loader, setLoader] = useState(true);
+  const [translate, setTranslate] = useState(false);
 
   const translation = async () => {
     const data = new URLSearchParams();
@@ -17,6 +18,7 @@ const Translator = () => {
     data.append("target", targetLang);
     data.append("source", sourceLang);
 
+    setTranslate(true)
     const options = {
       method: "POST",
       url: "https://google-translate1.p.rapidapi.com/language/translate/v2",
@@ -34,6 +36,7 @@ const Translator = () => {
     } catch (error) {
       console.error(error);
     }
+    setTranslate(false);
   };
 
   const getLang = async () => {
@@ -79,8 +82,8 @@ const Translator = () => {
                   readOnly
                   disabled
                   className="to-text h-64 w-full border-none outline-none resize-none p-4 rounded-lg md:rounded-none"
-                  placeholder="Translation"
-                  value={translatedText}
+                  placeholder={translate ? "Translating..." : "Translation"}
+                  value={sourceText? translatedText : null}
                 ></textarea>
               </div>
               <div className="flex flex-col md:flex-row justify-between mb-4">
