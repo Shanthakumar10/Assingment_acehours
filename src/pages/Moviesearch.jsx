@@ -1,36 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import '../components/Moviesearch.css'
+import '../components/Moviesearch.css';
 import MovieCard from '../components/Moviecard';
 import SearchIcon from '../../public/search.svg';
 import { Link } from 'react-router-dom';
 import MovieInfo from '../components/MovieInfo';
 import { FadeLoader } from "react-spinners";
 
-
-
 const Moviesearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [imdbId, setImdbId] = useState("")
+  const [imdbId, setImdbId] = useState("");
   const [movieDropdown, setMovieDropdown] = useState(false);
-  const [dropDownInfo, setDropDownInfo] = useState([])
-  const [dropDownSerach, setDropDownSerach] = useState(false)
+  const [dropDownInfo, setDropDownInfo] = useState([]);
+  const [dropDownSearch, setDropDownSearch] = useState(false);
   const [loader, setLoader] = useState(true);
 
   const searchMovies = async (e, currentState) => {
-
     setLoading(true);
     setError(null);
-    setImdbId("")
+    setImdbId("");
     try {
-      const response = await axios.get(`http://www.omdbapi.com/?s=${e || searchTerm}&apikey=ea988e43`);
+      const response = await axios.get(`https://www.omdbapi.com/?s=${e || searchTerm}&apikey=ea988e43`);
       if (response.data.Response === "True") {
-        currentState(response.data.Search)
-        setMovieDropdown(false)
+        currentState(response.data.Search);
+        setMovieDropdown(false);
         setLoading(false);
       } else {
         setError(response.data.Error);
@@ -45,33 +41,32 @@ const Moviesearch = () => {
   }, []);
 
   const currentId = (id) => {
-    setImdbId(id)
-    setLoader(false)
-  }
+    setImdbId(id);
+    setLoader(false);
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       searchMovies(searchTerm, setMovies);
-      setMovieDropdown(false)
+      setMovieDropdown(false);
     }
-  }
+  };
 
   const handleMovieDrop = (e) => {
-    const dmovie = e
+    const dmovie = e;
     searchMovies(dmovie, setDropDownInfo);
     console.log(dmovie);
-    setSearchTerm(e)
-    setMovieDropdown(true)
-    setDropDownSerach(true)
-  }
+    setSearchTerm(e);
+    setMovieDropdown(true);
+    setDropDownSearch(true);
+  };
 
   const handleCurrentId = (title) => {
     console.log(title);
-    searchMovies(title, setMovies)
-  }
+    searchMovies(title, setMovies);
+  };
 
   return (
-
     <div className="bg-[#212426] min-h-screen flex flex-col items-center justify-center p-16 md:p-8 sm:p-4">
       <h1 className="relative text-4xl font-bold text-orange-500 my-8">MovieLand</h1>
 
@@ -91,32 +86,30 @@ const Moviesearch = () => {
             className="absolute right-4 top-7 transform -translate-y-1/2 text-gray-900 w-6 h-6 cursor-pointer"
           />
         </div>
-        {movieDropdown ? <div className='dropdowm  bg-slate-100 rounded-lg  pb-2'>
-          {dropDownInfo.map((item) => (
-            <div onClick={() => handleCurrentId(item.Title)} className='dropdown-row hover:bg-slate-300 pl-4 cursor-default p-1 '>{item.Title}</div>
-          ))}
-        </div> : null}
-      </div>
-      {
-
-        movies.length > 0 ? (
-          <>
-
-            {imdbId && <MovieInfo imdbId={imdbId} />}
-
-            <div className="container1 flex flex-wrap justify-center items-center w-full mt-12">
-              {movies.map((movie) => (
-
-                <MovieCard key={movie.imdbID} movie={movie} currentId={currentId} />
-
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="empty flex justify-center items-center w-full mt-12">
-            <h2 className="text-xl text-[#f9d3b4] font-raleway">No movies found</h2>
+        {movieDropdown ? (
+          <div className='dropdown bg-slate-100 rounded-lg pb-2'>
+            {dropDownInfo.map((item) => (
+              <div onClick={() => handleCurrentId(item.Title)} className='dropdown-row hover:bg-slate-300 pl-4 cursor-default p-1 '>{item.Title}</div>
+            ))}
           </div>
-        )}
+        ) : null}
+      </div>
+
+      {movies.length > 0 ? (
+        <>
+          {imdbId && <MovieInfo imdbId={imdbId} />}
+
+          <div className="container1 flex flex-wrap justify-center items-center w-full mt-12">
+            {movies.map((movie) => (
+              <MovieCard key={movie.imdbID} movie={movie} currentId={currentId} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="empty flex justify-center items-center w-full mt-12">
+          <h2 className="text-xl text-[#f9d3b4] font-raleway">No movies found</h2>
+        </div>
+      )}
 
       <Link
         className="previous bg-white text-black py-3 px-3 rounded-lg transition-colors duration-300 mt-4 hover:bg-black hover:text-white border-2 border-transparent hover:border-white"
@@ -125,8 +118,7 @@ const Moviesearch = () => {
         Previous Page
       </Link>
     </div>
-
   );
 };
 
-export default Moviesearch
+export default Moviesearch;
